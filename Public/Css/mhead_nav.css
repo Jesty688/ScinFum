@@ -1,0 +1,190 @@
+a{
+    font-family:title_font3;
+    font-width: blod;
+/*    font-size: 22px;
+    opacity: 1 !important;*/
+    color: #4A79FF;
+    text-decoration: none
+}
+.test::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width : 10px;  /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+    background:#fff;
+}
+.test::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius   : 10px;
+    background-color: #ccc;
+    background-image: -webkit-linear-gradient(
+            45deg,
+            rgba(255, 255, 255, 0.2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.2) 75%,
+            transparent 75%,
+            transparent
+    );
+}
+.test1::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width : 0px !important;  /*高宽分别对应横竖滚动条的尺寸 设置为0不可见*/
+    height: 1px;
+    background:#fff;
+}
+.test1::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius   : 10px;
+    background-color: #E6E6E6;
+
+}
+
+.Main{
+    position: relative;
+    /*border-bottom:1px solid green;*/
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    width:65%;
+    margin:2% auto;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+/*开关css*/
+.c-night{
+    background-color: #292929;
+    transition: .5s ease-in-out;
+}
+.c-mornning{
+    background-color: #EFF3F5;
+    transition: .5s ease-in-out;
+}
+.Main_head{
+    padding-top:2%;
+    width: 100%;
+    margin:0 auto;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 2%;
+
+}
+/*设置波浪*/
+#canvas{
+    margin-bottom: -0.8%;
+}
+/*设置轮播*/
+.main_user{
+    position: absolute;
+    top:0%;
+    /*border:1px solid red;*/
+    height:100%;
+    width:80%;
+    margin-left: 10%;
+}
+.scroll-box {
+    /*border:1px solid red;*/
+    opacity: .9;
+    width: 50%;
+    height: 100%;
+    margin: 0 auto;
+    /*box-shadow: 0 18px 49px 0 rgba(70,123,228,.45);*/
+    border-radius: 5px
+}
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block
+}
+.roll {
+    overflow: hidden;
+    height: 100%;
+    position: relative;
+}
+.roll li {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    transition: all 2s;
+    padding: 5px;
+    margin-bottom: 15px;
+}
+.roll li.roll_1 {
+    top: 20px;
+    transform: scale(.6)
+}
+.roll li.roll_2{
+    border-radius: 5px;
+    background-color: rgba(255,255,255,.1);
+    transform: scale(1);
+    top: 78px;
+}
+.roll li.roll_2:hover{
+    background-color: rgba(255,255,255,.4);
+}
+.roll li.roll_3 {
+    top: 140px;
+    transform: scale(.6)
+}
+.roll li.roll_hide {
+    opacity: 0;
+    transform: scale(.6)
+}
+.time{
+    font-size: 22px;
+}
+/*轮播结束*/
+
+
+
+
+/*菜单栏*/
+.main_nav{
+    display: flex;
+    align-items:center;
+    justify-content:flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: auto;
+    /*height: 40px;*/
+    /*border:1px solid red;*/
+    /*padding: 4px;*/
+    position: relative;
+}
+
+.main_nav div{
+    cursor: pointer;
+    color: #ccc;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: center;
+    font-family: title_font3;
+    /*border:1px solid red;*/
+
+}
+.checked_span{
+    display: block;
+    font-family: title_fontzw;
+    font-weight: bold;
+    color:#3d7efe;
+    font-size: 22px;
+}
+.fix{
+    position: relative;
+}
+/*设置菜单栏底部小导航条*/
+.curBg{
+    opacity: 0.5;
+    border:none !important;
+    width:15px;
+    height: 4px;
+    background-color: #3d7efe;
+    border-radius: 4px;
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+}

@@ -1,0 +1,129 @@
+.mask_layer{
+    display: none;
+    position: fixed;
+    top: -100px;
+    left: -100px;
+    right: -100px;
+    bottom: -100px;
+    z-index: 16;
+    background: rgba(0, 0, 0, .5);
+}
+.Popup{
+    display:none;
+    position: fixed;
+    top: 10%;
+    z-index: 1001;
+    padding: 21px;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 5px;
+    /*left: calc(50% - 170px);*/
+}
+.Popup-head{
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 260px;
+    background: #fff;
+    padding: 0 20px;
+}
+.Popup-head-bl{
+    position: relative;
+    box-sizing: border-box;
+    padding: 24px 0 40px 0;
+}
+.reg_logo{
+    display: block;
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 0;
+    /*border:1px solid red;*/
+    background-image: url('../Images/logo.png');
+    background-position: center center;
+    background-size: 180% 140%;
+}
+.reg_user{
+    margin-bottom: 20px;
+}
+.reg_user_input{
+    border-left: 0;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 100px;
+    padding: 1px 15px;
+    height: 36px;
+}
+.reg_user_input input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0;
+}
+.reg_user span{
+    margin-top:2px;
+    font-size:10px;
+    color:red;
+    margin-left: 3px;
+    display: none;
+}
+.reg_submit{
+    margin: 0 auto;
+    padding: 0;
+    width: 50%;
+    height: 36px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    /*border: 2px solid #1ecd97;*/
+    border-radius: 60px;
+    letter-spacing: 1px;
+    text-align: center;
+    line-height: 36px;
+    cursor: pointer;
+}
+
+.reg_submit:hover{
+
+    color:#fff;
+}
+
+
+
+/*加载动画*/
+@-webkit-keyframes ajax_load{
+    0%,100%{
+        height: 15px;
+        background: lightgreen;
+    }
+    50%{
+        height: 45px;
+        margin: -15px 0;
+        background: lightblue;
+    }
+}
+.ajax_loding span:nth-child(2){
+    -webkit-animation-delay:0.2s;
+    animation-delay:0.2s;
+}
+.ajax_loding span:nth-child(3){
+    -webkit-animation-delay:0.4s;
+    animation-delay:0.4s;
+}
+.ajax_loding span:nth-child(4){
+    -webkit-animation-delay:0.6s;
+    animation-delay:0.6s;
+}
+.ajax_loding span:nth-child(5){
+    -webkit-animation-delay:0.8s;
+    animation-delay:0.8s;
+}
+.ajax_loding span{
+    display: inline-block;
+    width: 6px;
+    height: 100%;
+    border-radius: 4px;
+    background: lightgreen;
+    -webkit-animation: ajax_load 1.5s ease infinite;
+    animation: ajax_load 1.5s ease infinite;
+}
+.ajax_loding{
+    display: none;
+    cursor: default;
+}

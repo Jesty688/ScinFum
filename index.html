@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon " type="images/x-icon" href="assets/img/favicon.ico">
+    <!-- 导入字体文件 -->
+    <link rel="stylesheet" href="assets/css/iconfont.css">
+    <link rel="stylesheet" href="assets/css/imp_font.css">
+        <!-- 导入css -->
+    <link rel="stylesheet" href="assets/css/mhead_nav.css">
+    <link rel="stylesheet" href="assets/css/swbox.css">
+
+    <link rel="stylesheet" href="assets/Vendor/css/Switch.css">
+    <!-- JQ -->
+    <script src="assets/js/jquery-3.3.1.js"></script>
+    <!-- 导入自写插件 -->
+    <script src="assets/js/ScinFumPlug.js"></script>
+    <!--  导入Main头部的水波浪js样式  -->
+    <script src="assets/js/wave.js"></script>
+<!--    瀑布流-->
+    <script src="assets/Vendor/js/waterFall.js"></script>
+    <!-- 导入首页面js特效 -->
+    <script src="assets/js/Main.js"></script>
+    <!-- 导入开关插件 -->
+    <script src="assets/Vendor/js/Switch.js"></script>
+    <title>ScinFum-一个帅帅的小社区</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            border:none;
+            box-sizing: border-box;
+            list-style: none;
+            font-size:16px;
+        }
+        html,body{
+            /*background-color: #EFF3F5;*/
+            background-color: #F8FAFC;
+            transform:translateZ(0);
+            -webkit-transform:tradnslateZ(0);
+            /*background-color: #CCC;*/
+        }
+        .Cut_nm{
+            position: fixed;
+            bottom:0;
+            right:0px;
+        }
+        .sw-loader {
+            display: inline-block;
+            width: 100px;
+            height: 40px;
+            margin: 0 auto;
+            text-align: center;
+            display: block;
+            vertical-align: top;
+        }
+        .sw-loader svg{
+            display: none;
+        }
+        .nodata{
+            display: inline-block;
+            margin:0 auto;
+            width: 100px;
+            text-align: center;
+            color:#7690FE;
+            background-color: #EFF3F5;
+            padding:3px;
+            border-radius:3px;
+        }
+        svg path,
+        svg rect {
+            /*display: none;*/
+            fill: #3D7EFE;
+        }
+
+        /*全页面弹窗*/
+        .dialog-box{
+            background-color: #EFF3F5;
+            display: none;
+            margin: 3px;
+            width: auto;
+            z-index: 16;
+            padding: 5px 8px;
+            position: fixed;
+            bottom: 2px;
+            border-radius:5px;
+        }
+        .dialog-lodding{
+            font-family: title_font3;
+            color:#7690FE;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="test">
+<!--页面弹窗-->
+<div class="dialog-box">
+    <div class="dialog-lodding">123</div>
+</div>
+
+
+<!--开关切换按钮-->
+<div class="Cut_nm">
+    <div class="Cut-one">
+        <span  class="switch-off" themeColor="#6F6F6F"></span>
+    </div>
+</div>
+<!--  定一个主框架  -->
+<div class="Main">
+<!-- 波浪+图片 -->
+    <div class="Main_head">
+        <!--水浪-->
+        <canvas id="canvas"></canvas>
+<!--        轮播-->
+        <div class="main_user">
+                <div class="scroll-box">
+                    <div class="roll">
+                        <ul>
+                            <li class="roll_1">
+                                <a href="#" class="ellipsis">关于ScinFun-一个帅帅的小社区<span class="time fr">SweeTang</span></a>
+                            </li>
+                            <li class="roll_2">
+                                <a href="#" class="ellipsis">123<span class="time fr">SweeTang</span></a>
+                            </li>
+                            <li class="roll_3">
+                                <a href="#" class="ellipsis">321<span class="time fr">SweeTang</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+    </div>
+<!--   Main   -->
+    <div class="main_body">
+<!--   Nav_show    -->
+        <div class="main_nav"onselectstart="return false;">
+            <div class="title_f fix"><span class="checked_span">首推</span></div>
+            <div><span>关注</span></div>
+            <div><span>好友</span></div>
+            <div><span>个人中心</span></div>
+            <!--滑动条-->
+            <div class="curBg"></div>
+        </div>
+<!--  Bottom_show  -->
+        <div class="main_msg">
+            <!--  顶部<最新 - 最热> Js没写-->
+            <div class="top_nav">
+                <a href="javascript:void(0)" class="active">推荐</a>
+                <a href="javascript:void(0)" >最新</a>
+                <a href="javascript:void(0)">最热</a>
+            </div>
+            <!--显示详细卡片布局-->
+            <div class="show-detail test1">
+
+                <!--评论回复框框-->
+                <div class="js-reply-pop">
+                    <h3 class="clear">
+                        回复
+                        <!--关闭图标-->
+                        <span class="js-close-replypop diyfont"></span>
+                    </h3>
+                    <textarea class="answerbox" placeholder="写下你的回复"></textarea>
+                    <!--点击提交-->
+                    <div class="sublime-footer clear">
+                        <!--错误提示-->
+                        <span class="sublime-trips">字数不能3个</span>
+                        <button>回复</button>
+                    </div>
+
+
+                </div>
+                <!--顶部灰色条 点击关闭此展示页-->
+                <div id="detail-close"><span title="点击关闭"></span></div>
+                <!--正文标题-->
+                <div class="show-title"><p>Full Stack Developer - 如何秃光一头秀发</p></div>
+                <!-- 小标签 #心情-->
+                <div class="show-mood">
+                    <span>PHP</span>
+                    <span>JAVA</span>
+                    <span>Web开发</span>
+                    <span>ScinFum</span>
+                    <span>Ajax</span>
+                </div>
+                <!-- 头像+关注/已关注 -->
+                <div class="showUhead_att">
+                    <img src="http://pic4.zhimg.com/50/v2-848b1a190d937e270e8d062d00865493_hd.jpg" alt="">
+                    <span>萝莉屋店长</span>
+                    <i class="diyfont"></i>
+                    <span>关注</span>
+                </div>
+                <!--三个小icon 浏览量 点赞 评论-->
+                <div class="show-icon">
+                    <i class="diyfont"></i> <span>5420</span>
+                    <i class="diyfont"></i> <span>12</span>
+                    <i class="diyfont"></i> <span>NAN</span>
+                    <!--发布时间-->
+                    <span>3分钟前</span>
+                </div>
+                <hr class="hr_style" noshade="noshade" align="center" />
+                <!--文章内容-->
+                <article>
+                    <p>如何成为一名全栈工程师？互联网最热的话题之一,似乎正在成为IT行业的新潮流和新趋势，广大开发人员之间对”全栈”类话题的讨论也从未停止。曾经看到过一篇关于全栈设计师的文章，毁誉参半。有的人认为全栈只是一个头衔而已，真正的还是看个人的能力和技术。</p>
+                    <p><img src="https://img-blog.csdnimg.cn/20190613202543535.png?" alt=""></p>
+                    <p>这个话题其实是对互联网行业“技多”是否等于“全栈”，“深度”和“广度”哪个更重要的一场深层次的讨论。</p>
+                    <p>全栈工程师，也叫全端工程师，英文Full Stack developer，是指掌握多种技能，并能利用多种技能独立完成产品的人。</p>
+                    <p>全栈工程师是指，一个能处理数据库、服务器、系统工程和客户端的所有工作的工程师。根据项目的不同，客户需要的可能是移动栈、Web栈，或者原生应用程序栈。</p>
+                    <p>其实，“全栈”指的是为了完成一个项目，所需要的一系列技术的集合。“栈”是指一系列子模块的集合。这些软件子模块或者组件组合在一起即可实现既定功能，不再需要其他模块。</p>
+                    <p>自己是个做了几年软件开发的老码农，如果你对前端开发这门技术感兴趣，我们的前端开发学习扣qun：767-273-102 从最基础的HTML+CSS+JavaScript。jQuery，Ajax，node，angular等到移动端HTML5的项目实战的资料都有整理，送给每一位学习前端的小伙伴<br>
+                        <img src="https://img-blog.csdnimg.cn/20190613202556825.png?" alt=""></p>
+                    <p><strong>为什么全栈工程师会存在争议？</strong></p>
+                    <p>优势：全栈工程师的技术发展是横向的，涉猎技术很广，能快速的运用他所掌握的技术知识开发出产品原型。因为他们视野更宽阔，思维更活跃，对技术和产品都十分敏感，对于任何技术或设计，他总是有话可说。可以对团队中的每一个人都提供有益的帮助，能大大减少团队人员沟通、技术对接的时间和技术成本。所以他们当中，很多人成为了创业者或者在创业公司担任技术合伙人。</p>
+                    <p>劣势：正是由于横向的技术发展，导致全栈工程师往往博而不精。大多数自称为“全栈”的工程师，都停留在一种浅尝辄止的“略懂”的境界。至于具体如何实现，如何让架构更适合后面阶段的模块化开发，那就真不知道了。</p>
+                    <p><img src="" alt=""></p>
+                    <p><strong>即便如此，仍有人在问，如何成为全栈工程师？</strong></p>
+                    <p>一个合格的全栈开发人员应具有在构建应用程序时涉及的所有方面的功能知识和能力。</p>
+                    <p><strong>1) 掌握多门编程语言</strong></p>
+                    <p>你需要精通多门编程语言，JS，JAVA 、PHP、C#、Python、Ruby、Perl 等，因为你的大多数核心业务处理都需要用这些语言来写。你既要掌握这些语言的语法，又需要非常熟悉如何基于这些语言进行项目的架构、设计、实现以及测试。</p>
+                    <p><strong>2) 运用开发框架和第三方库</strong></p>
+                    <p>流行的开发语言，一般都伴有出色的开发框架，比如JAVA的Spring、MyBatis、Hibernate，Python的Django，PHP的 thinkphp、yin，nodeJs的 express 等等。</p>
+                    <p><strong>3) 前端技术</strong></p>
+                    <p>前端技术在今天的项目和产品研发过程中变得愈加重要。除了实现产品功能，用户体验也是检验产品是否成功的标准之一。而这都依赖于前端技术的实现，你至少需要掌握 HTML5、CSS3、JavaScript 等基本前端技术，同时进一步学习 JQuery、LESS、SASS、AngularJS或REACT等前端框架或第三方库。</p>
+                    <p><strong>4) 数据库与缓存</strong></p>
+                    <p>任何产品或项目都需要一个数据库来存储数据。作为全栈工程师，你也需要至少掌握一到两个数据库，并知道怎样与数据库进行交互。目前流行的数据库主要有MySQL、MongoDB、Redis、Oracle、SQLServer等。MongoDB作为文档型数据库，在互联网产品中正被越来越多地使用，对于规模稍大一些的项目，我仍推荐使用MySQL或商用的Oracle作为后端数据库。而Redis这样的内存数据库则可以用于缓存，以提升系统的性能。</p>
+                    <p><strong>5) 基本设计能力</strong></p>
+                    <p>大部分关于全栈工程师的文章或讨论中都很少涉及到设计能力的要求。但我却认为这项技能非常重要，基本的原型设计，UI设计,UX设计都是需要了解的。</p>
+                    <p><img src="https://img-blog.csdnimg.cn/20190613202616248.png?" alt=""></p>
+                    <p><strong>6) 除了良好的开发技术知识，自我要求也是全栈工程师必备的因素:</strong></p>
+
+                        <p>全局性思维</p>
+                        <p>良好的沟通能力</p>
+                        <p>创造力</p>
+
+                        <p>好奇心</p>
+
+                        <p>时间管理能力</p>
+
+                    <p><strong>总结</strong></p>
+                    <p>熟练的掌握前端、后端、客户端方向的知识内容，每天都花时间来钻研也得花10年左右的时间。所以，全栈工程师决不是一夜练成的，你需要打好技术基础，强化核心技能，并持续学习才能应对更多的挑战。</p>
+                        <p>如果你喜欢学习，渴望变强，想成为全栈工程师，欢迎加入我的前端学习群：731771211  ,好友都会在里面交流，分享一些学习的方法和需要注意的小细节</p>
+                </article>
+                <!--评论-->
+                <div class="ques-list">
+                    <h2>评论</h2>
+                    <!--包含所有的评论内容-->
+                    <div class="answer-list-box">
+                        <div class="answer-item">
+                            <!--头像-->
+                            <a class="user-pic">
+                                <img src="http://img2.sycdn.imooc.com/55963ec6000126fc01000100-100-100.jpg" alt="">
+                            </a>
+                            <!--评论内容盒子-->
+                            <div class="answer-box">
+                                <div class="solved-head">
+                                    <span class="solved-font">MVP</span>
+                                </div>
+                                <div class="answer-content">
+                                    <!--用户名-->
+                                    <a href="javascript:void(0)">一只小阿狸</a>
+                                    <!--用户评论的内容-->
+                                    <div class="answer-desc">
+                                        <p>后端有很多种，java ,php ,c#，Python等，每一种要学的东西都不一样，每一种语言都要很多的主流框架，这些都是要学的，还有基础的东西很种 要，一定要学好</p>
+                                    </div>
+                                </div>
+                                <div class="ctrl-bar clear">
+                                    <!--赞同图标-->
+                                    <span class="agree moco-btn-gray-l js-if">
+                                        <i class="diyfont icon-dianzan-copy"></i>
+                                        <!--本应该有一个em标签存放的点赞数量 这里不直接添加 用ajax来添加标签-->
+                                    </span>
+                                    <span class="oppose moco-btn-gray-l js-if">
+                                        <i class="diyfont icon-unzan"></i>
+                                        <em>反对</em>
+                                    </span>
+                                    <a href="javascript:;" class="reply-del">回复</a>
+                                    <span class="timer">4小时前</span>
+                                </div>
+                                <div class="reply-con">
+                                    <ul class="reply-list"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="answer-item">
+                            <!--头像-->
+                            <a class="user-pic">
+                                <img src="http://img3.sycdn.imooc.com/5b8cee810001bd4902000200-100-100.jpg" alt="">
+                            </a>
+                            <!--评论内容盒子-->
+                            <div class="answer-box">
+                                <div class="answer-content">
+                                    <!--用户名-->
+                                    <a href="javascript:void(0)">云烟</a>
+                                    <!--用户评论的内容-->
+                                    <div class="answer-desc">
+                                        <p>vue里面的methods写了方法，为什么渲染的时候还是报未定义</p>
+                                    </div>
+                                </div>
+                                <div class="ctrl-bar clear">
+                                    <!--赞同图标-->
+                                    <span class="agree moco-btn-gray-l js-if">
+                                        <i class="diyfont icon-dianzan-copy"></i>
+                                        <!--本应该有一个em标签存放的点赞数量 这里不直接添加 用ajax来添加标签-->
+                                    </span>
+                                    <span class="oppose moco-btn-gray-l js-if">
+                                        <i class="diyfont icon-unzan"></i>
+                                        <em>反对</em>
+                                    </span>
+                                    <a href="javascript:;" class="reply-del">回复</a>
+                                    <span class="timer">2分钟前</span>
+                                </div>
+                                <div class="reply-con">
+                                    <ul class="reply-list">
+                                        <li class="clear">
+
+                                            <a class="user-pic">
+                                                <img src="assets/img/favicon.ico" alt="">
+                                            </a>
+                                            <div class="reply-item">
+                                                <a href="javascript:void(0)" class="from-user">Grasd</a>
+                                                <!--回复的内容-->
+                                                <div class="reply-content">
+                                                    微信小程序入门与实战 常用组件API开发技巧项目实战
+                                                </div>
+                                                <div class="reply-footer clear">
+                                                    <a href="javascrip:;" class="reply-del">回复</a>
+                                                    <span class="timer">1分钟前</span>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li class="clear">
+
+                                            <a class="user-pic">
+                                                <img src="assets/img/favicon.ico" alt="">
+                                            </a>
+                                            <div class="reply-item">
+                                                <a href="javascript:void(0)" class="from-user">Grasd</a>
+                                                <!--回复的内容-->
+                                                <div class="reply-content">
+                                                    微信小程序入门与实战 常用组件API开发技巧项目实战
+                                                </div>
+                                                <div class="reply-footer clear">
+                                                    <a href="javascrip:;" class="reply-del">回复</a>
+                                                    <span class="timer">1分钟前</span>
+                                                </div>
+                                            </div>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!--底部固定 收藏 点赞 分享-->
+                <div class="show-fixed-bottom">
+                    <div><i class="diyfont"></i></div>
+                    <div><i class="diyfont"></i></div>
+                    <div>
+                        <div class="show-like">
+                            <i class="diyfont"></i><span>123</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 瀑布流布局  -->
+           <div class="main_msg-box" style="opacity: 1;">
+               <div class="grid test1">
+                   <div class="grid-item" min-w="max">
+                    <!-- 头像+用户名+表示+正文 -->
+                       <div class="swcontent">
+                           <div class="sw-head">
+                               <div class="sw-left">
+                                   <div class="userimg">
+                                       <img src="https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1858881657,1091414906&fm=111&gp=0.jpg" alt="">
+                                   </div>
+                                   <div class="ct">
+                                       <div>孙无力</div>
+                                       <span>8月29日</span>
+                                       <span>41.8万热度</span>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="sw-body">
+                               <img id='sw-img' src="assets/img/1.jpg" alt="">
+                               <!-- 喜欢 点赞 评论 转发-->
+                               <!-- 后面用js替换掉 -->
+                               <i class="diyfont ztop"></i>
+                               <div class="sw-xdpz">
+                                   <span><span class="sw-like diyfont"></span>497</span>
+                                   <span><span class="sw-dianzan diyfont"></span>654</span>
+                                   <span><span class="sw-comment diyfont"></span>431</span>
+                                   <span><span class="sw-forword diyfont"></span>转发</span>
+                               </div>
+                               <div class="sw-title">
+                                   <p>满怀希望，就会所向披靡12312312312312312123123</p>
+                               </div>
+                           </div>
+                       </div>
+
+                   </div>
+                   <div class="grid-item"  >
+                       <div class="swcontent">
+                           <div class="sw-head">
+                               <div class="sw-left">
+                                   <div class="userimg">
+                                       <img src="https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1858881657,1091414906&fm=111&gp=0.jpg" alt="">
+                                   </div>
+                                   <div class="ct">
+                                       <div>孙无力</div>
+                                       <span>8月29日</span>
+                                       <span>41.8万热度</span>
+                                   </div>
+
+                               </div>
+                           </div>
+                           <div class="sw-body">
+                               <img id="sw-img" src="assets/img/2.jpg" alt="">
+                               <!-- 喜欢 点赞 评论 转发-->
+                               <i class="diyfont zhot"></i>
+                               <div class="sw-xdpz">
+                                   <span><span class="sw-like diyfont"></span>497</span>
+                                   <span><span class="sw-dianzan diyfont"></span>654</span>
+                                   <span><span class="sw-comment diyfont"></span>431</span>
+                                   <span><span class="sw-forword diyfont"></span>转发</span>
+                               </div>
+                               <div class="sw-title">
+                                   <p>满怀希望，就会所向披靡12312312312312312123123</p>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="grid-item">
+                       <div class="swcontent">
+                           <div class="sw-head">
+                               <div class="sw-left">
+                                   <div class="userimg">
+                                       <img src="https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1858881657,1091414906&fm=111&gp=0.jpg" alt="">
+                                   </div>
+                                   <div class="ct">
+                                       <div>孙无力</div>
+                                       <span>8月29日</span>
+                                       <span>41.8万热度</span>
+                                   </div>
+
+                               </div>
+                           </div>
+                           <div class="sw-body">
+                               <img id="sw-img" src="assets/img/3.jpg" alt="">
+                               <!-- 喜欢 点赞 评论 转发-->
+                               <i class="diyfont ztuijian"></i>
+                               <div class="sw-xdpz">
+                                   <span class="sm"><span class="sw-like diyfont"></span>497</span>
+                                   <span class="sm"><span class="sw-dianzan diyfont"></span>654</span>
+                                   <span class="sm"><span class="sw-comment diyfont"></span>431</span>
+                                   <span class="sm"><span class="sw-forword diyfont"></span>转发</span>
+                               </div>
+                               <div class="sw-title">
+                                   <p>满怀希望，就会所向披靡12312312312312312123123</p>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="grid-item">
+                       <div class="swcontent">
+                           <div class="sw-head">
+                               <div class="sw-left">
+                                   <div class="userimg">
+                                       <img src="https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1858881657,1091414906&fm=111&gp=0.jpg" alt="">
+                                   </div>
+                                   <div class="ct">
+                                       <div>孙无力</div>
+                                       <span>8月29日</span>
+                                       <span>41.8万热度</span>
+                                   </div>
+
+                               </div>
+                           </div>
+                           <div class="sw-body">
+                               <img id="sw-img" src="assets/img/4.jpg" alt="">
+                               <!-- 喜欢 点赞 评论 转发-->
+                               <div class="sw-xdpz">
+                                   <span><span class="sw-like diyfont"></span>497</span>
+                                   <span><span class="sw-dianzan diyfont"></span>654</span>
+                                   <span><span class="sw-comment diyfont"></span>431</span>
+                                   <span><span class="sw-forword diyfont"></span>转发</span>
+                               </div>
+                               <div class="sw-title">
+                                   <p>满怀希望，就会所向披靡12312312312312312123123</p>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+            <!-- 加载条 -->
+            <div class="sw-loader">
+                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+                    <path opacity="0.2" fill="#000" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                    s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                    c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"/>
+                    <path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                    C22.32,8.481,24.301,9.057,26.013,10.047z">
+                        <animateTransform attributeType="xml"
+                          attributeName="transform"
+                          type="rotate"
+                          from="0 20 20"
+                          to="360 20 20"
+                          dur="0.5s"
+                          repeatCount="indefinite"/>
+                    </path>
+                </svg>
+                <span class="nodata">没有了,紧翻</span>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function() {
+        /*为未来的ajax添加的元素绑定事件*/
+        $(document).on('mouseenter','#sw-img',function(){
+            $(this).css('transform','scale(1.05,1.05)');
+        });
+        $(document).on('mouseleave','#sw-img',function(){
+            $(this).css('transform','scale(1,1)');
+        });
+        $.each($('.swcontent'),function(i,val){
+            $(document).on('mouseenter','.swcontent',function () {
+                $(this).children().children().children().siblings('.ct').children('div:first').css('color','#3D7EFE');
+            });
+            $(document).on('mouseleave','.swcontent',function () {
+                $(this).children().children().children().siblings('.ct').children('div:first').css('color','#34495E');
+
+            });
+        });
+
+        minigrid('.grid', '.grid-item', 8, null,function () {
+            $('.grid').css('overflow','hidden');
+            //这里有滑动条的影响 加一个2
+            $('.grid').children().css('width',$('.grid-item').innerWidth() + 2);
+        });
+        /*窗口改变进行一次动画*/
+        window.addEventListener('resize', function(){
+            minigrid('.grid', '.grid-item', 8, null,null);
+        } );
+        /*鼠标移入显示滚动条 反之移出*/
+        $('.main_msg-box').hover(function () {
+            $(this).children('.grid').css('overflow','auto');
+
+        },function () {
+            $(this).children('.grid').css('overflow','hidden');
+        });
+        var tranY;
+        var restop = 0;
+        var sw_loader= $('.sw-loader>svg'); /*加载条*/
+        var sw_tips = $('.nodata').css('display','none');
+        //console.log(sw_loader)
+        $('.grid').scroll(function () {
+            var sTop = Math.ceil($(this).scrollTop()); /*获取滚动条的高度*/
+            var last_item = Math.ceil($('.grid-item:last').innerHeight());/* 获取最后一个元素的高度 */
+            tranY = Math.ceil(minigrid('.grid','.grid-item',8,null,null));
+            /*console.log("Y轴：" + tranY);
+            console.log("高度：" + last_item);
+            console.log("滚动条高度：" + sTop);
+            console.log("last_item + sTop：" + Math.ceil(last_item + sTop - 108));*/
+            //没办法 只能这样消除一点bug
+            if(Math.ceil(last_item + sTop - 108) == tranY || Math.ceil(last_item + sTop - 108) + 1 == tranY || Math.ceil(last_item + sTop - 108) - 1 == tranY){
+                sw_loader.css('display','inline-block');
+                /*获取ajax数据*/
+                $.ajax({
+                    type:'get',
+                    url:'./1.php',
+                    success:function(json_data){
+                        // console.log(json_data);
+                        if( json_data.length == 0 ){
+                            sw_loader.hide();
+                            sw_tips.fadeIn(800).fadeOut(4000);
+                            return false;
+                        }
+                        var html = '';
+                        for(var i in json_data){
+                            html += '<div class="grid-item" style="transform: translate(10%, -5%);">';
+
+                            html += '<div class="swcontent">';
+                            html += '<div class="sw-head">';
+                            html += '<div class="sw-left">';
+                            html += '<div class="userimg">';
+                            html += '<img src=' + json_data[i].userimg + '>';
+                            html += '</div>';
+
+                            html += '<div class="ct">';
+                            html += '<div>' + json_data[i].username + '</div>';
+                            html += '<span>' + json_data[i].date + '</span>';
+                            html += '<span>' + json_data[i].heat +  '热度' + '</span>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '<div class="sw-body">';
+                            html += '<img id="sw-img" src=' + json_data[i].bodyimg + '>';
+                            html += '<div class="sw-xdpz">';
+                            html += '<span><span class="sw-like diyfont"></span>' + json_data[i].likenum + '</span>';
+                            html += '<span><span class="sw-dianzan diyfont"></span>' + json_data[i].goodnum + '</span>';
+                            html += '<span><span class="sw-comment diyfont"></span>' + json_data[i].commentnum + '</span>';
+                            html += '<span><span class="sw-forword diyfont"></span>转发</span>';
+                            html += '</div>';
+                            html += '<div class="sw-title">';
+                            html += '<p>'+ json_data[i].title +'</p>'
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                        }
+                        //ajax请求成功 隐藏加载条
+                        sw_loader.fadeOut(570);
+                        $(html).appendTo($('.grid')).hide().fadeIn(1800);html = '';
+                        /*加大二个像素 防止鼠标放上时会扩大一下标签*/
+                        $.each($('.grid').children(),function(i,val){
+                            if(!$('.grid').children().eq(i).attr('min-w')){
+                                $('.grid').children().eq(i).css('width',$('.grid').children().innerWidth() + 2);
+                            }
+                            $('.grid').children().eq(i).attr('min-w','max');
+                        });
+                        minigrid('.grid', '.grid-item', 8, null,null);
+                        /*加载完成自适应一次布局*/
+                        Adaption();
+                    },
+                    dataType:'json'
+                });
+            }
+
+        });
+        /*点击某张卡片进入详细页*/
+        $(document).on('click','.swcontent',function(){
+            $('.show-detail').css('display','block').animate({height:'550px'},600);
+            $('.show-fixed-bottom').css('width',$('.show-detail').width());
+            $('.show-fixed-bottom').fadeIn(800);
+            $('.answer-box').css('width',$('.show-detail').width() - 48 - 64 + 'px');
+            $('.reply-item').css('width',$('.show-detail').width() - 95 - 64 + 'px');
+            $('.js-reply-pop').css('left',($('body').width() -640) / 2);
+        });
+        $('.show-detail #detail-close span').click(function () {
+            $('.show-fixed-bottom').fadeOut(400);
+            /*关闭时 回到顶部*/
+            $('.show-detail').animate({height:'0',scrollTop:0},600).fadeOut(0);
+
+        });
+
+
+        /*评论点赞*/
+        $(document).on('click','.agree',function () {
+            /*用指定的当前的class获取他的兄弟元素 如果直接 选择所有的类名的话 点赞或反对则所有的点赞或取消都会修改 所以用此可以保证只是当前的改变*/
+            var siblingoppo = $(this).siblings('.oppose');
+            if($(this).hasClass('js-if')){
+                /*首先应该发送ajax*/
+                $(this).children('i').css('color','#fff');
+                $(this).css('background-color','#1FAD4E');
+            }else{
+                $(this).children('i').css('color','#545C63');
+                // $(this).children('em').css('display','none').css('color','black');
+                $(this).css('background-color','#EFEFEF');
+            }
+            /*用来判断已反对显示的图标*/
+            if($(this).hasClass('js-if') == true || ($('.oppose').hasClass('js-if') == false) ){
+                $(this).children('i').css('color','#fff');
+                $(this).css('background-color','#1FAD4E');
+                siblingoppo.children('em').text('反对');
+                siblingoppo.children('i').css('color','#545C63');
+                siblingoppo.children('em').css('color','black');
+                siblingoppo.css('background-color','#EEEEEF');
+            }
+            siblingoppo.addClass('js-if')
+            /*有则删除 没有这添加 取反*/
+            $(this).toggleClass("js-if");
+
+        })
+        /*评论反对*/
+        $(document).on('click','.oppose',function () {
+            var siblingsagree = $(this).siblings('.agree');
+                if($(this).hasClass('js-if')){
+                    /*首先应该发送ajax*/
+                    $(this).children('em').text('已反对');
+                    $(this).children('i').css('color','#fff');
+                    $(this).children('em').css('color','#fff');
+                    $(this).css('background-color','#1FAD4E');
+                    $(this).removeClass('js-if');
+                    siblingsagree.addClass("js-if");
+                    siblingsagree.children('i').css('color','#545C63');
+                    siblingsagree.css('background-color','#EEEEEF');
+                }else{
+                    /*调用自定义弹窗插件*/
+                    $('.dialog-box').PopDialog('你已经反对过了哦');
+                }
+        })
+        //点击弹出回复输入框
+        $(document).on('click','.reply-del',function () {
+            $('.js-reply-pop').fadeIn(600);
+        });
+        /*关闭输入框*/
+        $(document).on('click','.js-close-replypop',function () {
+            $('.js-reply-pop').fadeOut(400);
+        });
+
+
+    }); //--全局结束
+function Adaption(){
+    if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){
+       //手机端 设置主页面宽度90%
+        $('.Main').css('width','90%');
+        /*修改显示布局适应手机端显示*/
+        $('.grid-item').css('width','90%');
+        $('.grid-item').css('margin-left','0px');
+    }
+}
+
+
+    Adaption();
+</script>
+</body>
+</html>

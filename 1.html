@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+        <script src="Public/Js/jquery-3.3.1.js"></script>
+    <style>
+
+    </style>
+  </head>
+  <body>
+
+    <div>
+        <form id="myForm5">
+            <input type="file" id="myFile5" onchange="previewImg(this)" />
+            <input type="button" value="AJAX提交FormData对象上传图片" onclick="uploadFileByFormData()" />
+        </form>
+    </div>
+    <hr />
+    <div>
+        <img src="" id="myImg" />
+    </div>
+
+
+  </body>
+
+<script type="text/javascript">
+
+
+function previewImg(node) {
+            var file = node.files[0];//获取文件
+
+            var reader = new FileReader();
+            reader.readAsDataURL(file);//通过readAsDataURL()方法读取文件
+            reader.onload = function (evt) {//调用FileReader()的onload事件，当文件读取成功时,
+                $("#myImg").attr("src", evt.target.result);
+            }
+}
+
+
+</script>
+
+
+</html>

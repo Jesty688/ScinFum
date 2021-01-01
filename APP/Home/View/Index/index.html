@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv=”content-type” content=”text/html; charset=UTF-8″ />
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon " type="images/x-icon" href="Public/Images/favicon.ico">
+    <!-- 导入字体文件 -->
+    <link rel="stylesheet" href="Public/Css/iconfont.css">
+    <link rel="stylesheet" href="Public/Css/imp_font.css">
+    <!-- 导入css -->
+    <link rel="stylesheet" href="Public/Css/mhead_nav.css">
+    <link rel="stylesheet" href="Public/Css/swbox.css">
+    <link rel="stylesheet" href="Public/Css/reg.css">
+    <link rel="stylesheet" href="Public/Css/log.css">
+    <link rel="stylesheet" href="Public/Vendor_Style/Css/Switch.css">
+    <!-- JQ -->
+    <script src="Public/Js/jquery-3.3.1.js"></script>
+    <!--js样式-->
+    <script src="Public/Js/login.js"></script>
+    <script src="Public/Vendor_Style/Js/jquery.cookie.js"></script>
+    <script src="Public/Js/Comment.js"></script>
+    <script src="Public/Js/PageUser.js"></script>
+    <!--Main Js   -- 动态的加载 -->
+<!--    <script src="Public/Js/Index_Main.js"></script>-->
+    <!--导入Main头部的水波浪js样式  -->
+    <script src="Public/Js/wave.js"></script>
+    <!--瀑布流-->
+    <script src="Public/Vendor_Style/Js/waterFall.js"></script>
+    <!--导入首页面js特效 -->
+    <script src="Public/Js/Main.js"></script>
+    <!--导入开关插件 -->
+    <script src="Public/Vendor_Style/Js/Switch.js"></script>
+    <!--导入自写插件 -->
+    <script src="Public/Js/ScinFumPlug.js"></script>
+    <title>ScinFum-一个帅帅的小社区</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            border:none;
+            outline: none;
+            box-sizing: border-box;
+            list-style: none;
+        }
+        html,body{
+            /*background-color: #EFF3F5;*/
+            background-color: #F8FAFC;
+            /*transform:translateZ(0);
+            -webkit-transform:translateZ(0);*/
+            /*background-color: #CCC;*/
+        }
+        .Cut_nm{
+            position: fixed;
+            bottom:0;
+            right:0px;
+        }
+        .sw-loader {
+            display: inline-block;
+            width: 100px;
+            height: 40px;
+            margin: 0 auto;
+            text-align: center;
+            display: block;
+            vertical-align: top;
+        }
+        .sw-loader svg{
+            display: none;
+        }
+        .nodata{
+            display: inline-block;
+            margin:0 auto;
+            width: 100px;
+            text-align: center;
+            color:#7690FE;
+            background-color: #EFF3F5;
+            padding:3px;
+            border-radius:3px;
+        }
+        svg path,
+        svg rect {
+            /*display: none;*/
+            fill: #3D7EFE;
+        }
+
+        /*全页面弹窗*/
+        .dialog-box{
+            background-color: #3D7EFE;
+            display: none;
+            margin: 3px;
+            width: auto;
+            z-index: 20;
+            padding: 5px 8px;
+            position: fixed;
+            bottom: 2px;
+            border-radius:5px;
+            box-shadow: 5px 4px 10px 2px rgba(61,126,254,0.34);
+        }
+        .dialog-lodding{
+            font-family: title_font3;
+            color:#fff;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login_submit:hover{
+            background:#1ecd97;
+            color:#fff;
+        }
+
+    </style>
+</head>
+<body class="test">
+<!--页面弹窗-->
+<div class="dialog-box">
+    <div class="dialog-lodding"></div>
+</div>
+<!--登录注册弹窗-->
+<!--遮罩层-->
+<div class="mask_layer"></div>
+<!--弹出的注册框-->
+<div class="Popup">
+    <div class="Popup-head">
+        <!-- 存放图片的父元素 -->
+        <div class="Popup-head-bl">
+            <div class="reg_logo"></div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <div>
+        <!-- 设置用户名 -->
+        <div class="reg_user">
+            <div class="reg_user_input">
+                <input class="inputuser" placeholder="请输入用户名" name="reg_username">
+            </div>
+            <!-- 错误提示 -->
+            <span>Error</span>
+        </div>
+        <!-- 设置登录密码 -->
+        <div class="reg_user">
+            <div class="reg_user_input">
+                <input class="reg_pwd" placeholder="设置登录密码，不少于6位" type="password" value="" name="reg_password">
+            </div>
+            <!-- 错误提示 -->
+            <span>Error</span>
+        </div>
+        <!-- 确认登录密码  -->
+        <div class="reg_user">
+            <div class="reg_user_input">
+                <input class="reg_surepwd" placeholder="确认密码" type="password" value="" name="reg_pwd">
+            </div>
+            <!-- 错误提示 -->
+            <span>Error</span>
+        </div>
+    </div>
+
+    <!-- 点击提交按钮 -->
+    <div class="reg_submit" onselectstart="return false">
+        <span class="reg_submit_b">注册</span>
+        <div class="ajax_loding" >
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+</div>
+<!--弹出的登录框-->
+<div class="Popup_login">
+    <div class="Popup-head">
+        <!-- 存放图片的父元素 -->
+        <div class="Popup-head-bl">
+            <div class="reg_logo"></div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <div>
+        <!-- 登录用户名 -->
+        <div class="reg_user">
+            <div class="reg_user_input">
+                <input class='login_user' placeholder="请输入用户名" name="login_username">
+            </div>
+            <!-- 错误提示 -->
+            <span>Error</span>
+        </div>
+        <!-- 设置登录密码 -->
+        <div class="reg_user">
+            <div class="reg_user_input">
+                <input class="login_pwd" placeholder="请输入登录密码" type="password" value="" name="login_password">
+            </div>
+            <!-- 错误提示 -->
+            <span>Error</span>
+        </div>
+
+        <!--  自动登录 && 立即注册  -->
+        <div class="login_option">
+            <label class="clickable">
+                <span class="check_wrap">
+                    <span></span>
+                </span>自动登录
+            </label>
+            <span class="login_tips">没有账号？立即注册</span>
+        </div>
+
+        <!-- 点击提交按钮 -->
+        <div class="login_submit" onselectstart="return false">
+            <span class="login_submit_b">登录</span>
+            <!--加载动画-->
+            <div class="ajax_loding" >
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!--开关切换按钮-->
+<div class="Cut_nm">
+    <div class="Cut-one">
+        <span  class="switch-off" themeColor="#6F6F6F"></span>
+    </div>
+</div>
+<!--  定一个主框架  -->
+<div class="Main">
+    <!-- 波浪+图片 -->
+    <div class="Main_head">
+        <!--水浪-->
+        <canvas id="canvas"></canvas>
+        <!--        轮播-->
+        <div class="main_user">
+            <div class="scroll-box">
+                <div class="roll">
+                    <ul>
+                        <li class="roll_1">
+                            <a href="#" class="ellipsis">关于ScinFun-一个帅帅的小社区<span class="time fr">SweeTang</span></a>
+                        </li>
+                        <li class="roll_2">
+                            <a href="#" class="ellipsis">123<span class="time fr">SweeTang</span></a>
+                        </li>
+                        <li class="roll_3">
+                            <a href="#" class="ellipsis">321<span class="time fr">SweeTang</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--这里的框框在电脑显示的话是正常的 因为需要设配手机 等会添加js 设置移动端现实的额回复框款的宽度-->
+    <!--评论回复框框-->
+    <div class="js-reply-pop">
+        <h3 class="clear">
+            回复
+            <!--关闭图标-->
+            <span class="js-close-replypop diyfont"></span>
+        </h3>
+        <textarea class="answerbox" placeholder="写下你的回复"></textarea>
+        <!--点击提交-->
+        <div class="sublime-footer clear">
+            <!--错误提示-->
+            <span class="sublime-trips">字数不能3个</span>
+            <button class="reply-btn">回复</button>
+        </div>
+    </div>
+    <!--回复-End-->
+
+    <!--   Main   -->
+    <div class="main_body">
+        <!--   Nav_show    -->
+        <div class="main_nav"onselectstart="return false;">
+            <div class="title_f fix St"><span class="checked_span">首推</span></div>
+            <div><span>关注</span></div>
+            <div><span>好友</span></div>
+            <div class="UserCenter"><span>个人中心</span></div>
+            <!--滑动条-->
+            <div class="curBg"></div>
+        </div>
+        <!--  Bottom_show  -->
+        <div class="main_msg clear Shuitui">
+            <!--  顶部<最新 - 最热> Js没写-->
+            <div class="top_nav">
+                <a href="javascript:void(0)" class="active">推荐</a>
+                <a href="javascript:void(0)" >最新</a>
+                <a href="javascript:void(0)">最热</a>
+            </div>
+            <!--发表-->
+            <div class="publish"><a href="javascript:;">＋立即发布</a></div>
+            <!--显示详细卡片布局-->
+            <div class="show-detail test1">
+                <!--顶部灰色条 点击关闭此展示页-->
+                <div id="detail-close"><span title="点击关闭"></span></div>
+                <!--正文标题-->
+                <div class="show-title"><p>Full Stack Developer - 如何秃光一头秀发</p></div>
+                <!-- 小标签 #心情-->
+                <div class="show-mood">
+                    <span>PHP</span>
+                    <span>JAVA</span>
+                    <span>Web开发</span>
+                    <span>ScinFum</span>
+                    <span>Ajax</span>
+                </div>
+                <!-- 头像+关注/已关注 -->
+                <div class="showUhead_att">
+                    <img src="http://pic4.zhimg.com/50/v2-848b1a190d937e270e8d062d00865493_hd.jpg" alt="">
+                    <span>萝莉屋店长</span>
+                    <i class="diyfont"></i>
+                    <span>关注</span>
+                </div>
+                <!--三个小icon 浏览量 点赞 评论-->
+                <div class="show-icon">
+                    <i class="diyfont"></i> <span>5420</span>
+                    <i class="diyfont"></i> <span>12</span>
+                    <i class="diyfont"></i> <span>NAN</span>
+                    <!--发布时间-->
+                    <span>3分钟前</span>
+                </div>
+                <hr class="hr_style" noshade="noshade" align="center" />
+                <!--文章内容-->
+                <article>
+                    <p>如何成为一名全栈工程师？互联网最热的话题之一,似乎正在成为IT行业的新潮流和新趋势，广大开发人员之间对”全栈”类话题的讨论也从未停止。曾经看到过一篇关于全栈设计师的文章，毁誉参半。有的人认为全栈只是一个头衔而已，真正的还是看个人的能力和技术。</p>
+                    <p><img src=" " alt=""></p>
+                    <p>这个话题其实是对互联网行业“技多”是否等于“全栈”，“深度”和“广度”哪个更重要的一场深层次的讨论。</p>
+                    <p>全栈工程师，也叫全端工程师，英文Full Stack developer，是指掌握多种技能，并能利用多种技能独立完成产品的人。</p>
+                    <p>全栈工程师是指，一个能处理数据库、服务器、系统工程和客户端的所有工作的工程师。根据项目的不同，客户需要的可能是移动栈、Web栈，或者原生应用程序栈。</p>
+                    <p>其实，“全栈”指的是为了完成一个项目，所需要的一系列技术的集合。“栈”是指一系列子模块的集合。这些软件子模块或者组件组合在一起即可实现既定功能，不再需要其他模块。</p>
+                    <p>自己是个做了几年软件开发的老码农，如果你对前端开发这门技术感兴趣，我们的前端开发学习扣qun：767-273-102 从最基础的HTML+CSS+JavaScript。jQuery，Ajax，node，angular等到移动端HTML5的项目实战的资料都有整理，送给每一位学习前端的小伙伴<br>
+                        <img src=" " alt=""></p>
+                    <p><strong>为什么全栈工程师会存在争议？</strong></p>
+                    <p>优势：全栈工程师的技术发展是横向的，涉猎技术很广，能快速的运用他所掌握的技术知识开发出产品原型。因为他们视野更宽阔，思维更活跃，对技术和产品都十分敏感，对于任何技术或设计，他总是有话可说。可以对团队中的每一个人都提供有益的帮助，能大大减少团队人员沟通、技术对接的时间和技术成本。所以他们当中，很多人成为了创业者或者在创业公司担任技术合伙人。</p>
+                    <p>劣势：正是由于横向的技术发展，导致全栈工程师往往博而不精。大多数自称为“全栈”的工程师，都停留在一种浅尝辄止的“略懂”的境界。至于具体如何实现，如何让架构更适合后面阶段的模块化开发，那就真不知道了。</p>
+                    <p><img src="" alt=""></p>
+                    <p><strong>即便如此，仍有人在问，如何成为全栈工程师？</strong></p>
+                    <p>一个合格的全栈开发人员应具有在构建应用程序时涉及的所有方面的功能知识和能力。</p>
+                    <p><strong>1) 掌握多门编程语言</strong></p>
+                    <p>你需要精通多门编程语言，JS，JAVA 、PHP、C#、Python、Ruby、Perl 等，因为你的大多数核心业务处理都需要用这些语言来写。你既要掌握这些语言的语法，又需要非常熟悉如何基于这些语言进行项目的架构、设计、实现以及测试。</p>
+                    <p><strong>2) 运用开发框架和第三方库</strong></p>
+                    <p>流行的开发语言，一般都伴有出色的开发框架，比如JAVA的Spring、MyBatis、Hibernate，Python的Django，PHP的 thinkphp、yin，nodeJs的 express 等等。</p>
+                    <p><strong>3) 前端技术</strong></p>
+                    <p>前端技术在今天的项目和产品研发过程中变得愈加重要。除了实现产品功能，用户体验也是检验产品是否成功的标准之一。而这都依赖于前端技术的实现，你至少需要掌握 HTML5、CSS3、JavaScript 等基本前端技术，同时进一步学习 JQuery、LESS、SASS、AngularJS或REACT等前端框架或第三方库。</p>
+                    <p><strong>4) 数据库与缓存</strong></p>
+                    <p>任何产品或项目都需要一个数据库来存储数据。作为全栈工程师，你也需要至少掌握一到两个数据库，并知道怎样与数据库进行交互。目前流行的数据库主要有MySQL、MongoDB、Redis、Oracle、SQLServer等。MongoDB作为文档型数据库，在互联网产品中正被越来越多地使用，对于规模稍大一些的项目，我仍推荐使用MySQL或商用的Oracle作为后端数据库。而Redis这样的内存数据库则可以用于缓存，以提升系统的性能。</p>
+                    <p><strong>5) 基本设计能力</strong></p>
+                    <p>大部分关于全栈工程师的文章或讨论中都很少涉及到设计能力的要求。但我却认为这项技能非常重要，基本的原型设计，UI设计,UX设计都是需要了解的。</p>
+                    <p><img src=" " alt=""></p>
+                    <p><strong>6) 除了良好的开发技术知识，自我要求也是全栈工程师必备的因素:</strong></p>
+
+                    <p>全局性思维</p>
+                    <p>良好的沟通能力</p>
+                    <p>创造力</p>
+
+                    <p>好奇心</p>
+
+                    <p>时间管理能力</p>
+
+                    <p><strong>总结</strong></p>
+                    <p>熟练的掌握前端、后端、客户端方向的知识内容，每天都花时间来钻研也得花10年左右的时间。所以，全栈工程师决不是一夜练成的，你需要打好技术基础，强化核心技能，并持续学习才能应对更多的挑战。</p>
+                    <p>如果你喜欢学习，渴望变强，想成为全栈工程师，欢迎加入我的前端学习群：731771211  ,好友都会在里面交流，分享一些学习的方法和需要注意的小细节</p>
+                </article>
+                <!--评论-->
+                <div class="ques-list">
+                    <div class="ques-head">
+                        <h2>评论</h2>
+                        <div class="commment-btn"><a href="javascript:;">＋Release</a></div>
+                    </div>
+                    <!--文章若没任何评论则显示这个页面-->
+                    <div class="show-none">
+                        <div class="none-img"></div>
+                        <span>赶快来抢神评吧!</span>
+                    </div>
+                    <!--包含所有的评论内容-->
+                    <div class="answer-list-box" >
+
+                        <div class="answer-item">
+                            <!--头像-->
+                            <a class="user-pic">
+                                <img src="http://img2.sycdn.imooc.com/55963ec6000126fc01000100-100-100.jpg" alt="">
+                            </a>
+                            <!--评论内容盒子-->
+                            <div class="answer-box">
+                                <div class="solved-head">
+                                    <span class="solved-font">MVP</span>
+                                </div>
+                                <div class="answer-content">
+                                    <!--用户名-->
+                                    <a href="javascript:void(0)">一只小阿狸</a>
+                                    <!--用户评论的内容-->
+                                    <div class="answer-desc">
+                                        <p>后端有很多种，java ,php ,c#，Python等，每一种要学的东西都不一样，每一种语言都要很多的主流框架，这些都是要学的，还有基础的东西很种 要，一定要学好</p>
+                                    </div>
+                                </div>
+                                <div class="ctrl-bar clear">
+                                    <!--赞同图标-->
+                                    <span class="agree moco-btn-gray-l js-if">
+                                        <i class="diyfont icon-dianzan-copy"></i>
+                                        <!--本应该有一个em标签存放的点赞数量 这里不直接添加 用ajax来添加标签-->
+                                    </span>
+                                    <span class="oppose moco-btn-gray-l js-if">
+                                        <i class="diyfont icon-unzan"></i>
+                                        <em>反对</em>
+                                    </span>
+                                    <a href="javascript:;" class="reply-del">回复</a>
+                                    <span class="timer">4小时前</span>
+                                </div>
+                                <div class="reply-con">
+                                    <ul class="reply-list"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!--第二段 有回复-->
+                        <div class="answer-item">
+                            <!--头像-->
+                            <a class="user-pic">
+                                <img src="http://img3.sycdn.imooc.com/5b8cee810001bd4902000200-100-100.jpg" alt="">
+                            </a>
+                            <!--评论内容盒子-->
+                            <div class="answer-box">
+                                <div class="answer-content">
+                                    <!--用户名-->
+                                    <a href="javascript:void(0)">云烟</a>
+                                    <!--用户评论的内容-->
+                                    <div class="answer-desc">
+                                        <p>vue里面的methods写了方法，为什么渲染的时候还是报未定义</p>
+                                    </div>
+                                </div>
+                                <div class="ctrl-bar clear">
+                                    <!--赞同图标-->
+                                    <span class="agree moco-btn-gray-l js-if">
+                                        <i class="diyfont icon-dianzan-copy"></i>
+                                        <!--本应该有一个em标签存放的点赞数量 这里不直接添加 用ajax来添加标签-->
+                                    </span>
+                                    <span class="oppose moco-btn-gray-l js-if">
+                                        <i class="diyfont icon-unzan"></i>
+                                        <em>反对</em>
+                                    </span>
+                                    <a href="javascript:;" class="reply-del">回复</a>
+                                    <span class="timer">2分钟前</span>
+                                </div>
+                                <div class="reply-con">
+                                    <ul class="reply-list">
+
+                                        <li class="clear">
+                                            <a class="user-pic">
+                                                <img src="" alt="">
+                                            </a>
+                                            <div class="reply-item">
+                                                <a href="javascript:void(0)" class="from-user">Grasd</a>
+                                                <!--回复的内容-->
+                                                <div class="reply-content">
+                                                    微信小程序入门与实战 常用组件API开发技巧项目实战
+                                                </div>
+                                                <div class="reply-footer clear">
+                                                    <a href="javascrip:;" class="reply-del">回复</a>
+                                                    <span class="timer">1分钟前</span>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li class="clear">
+
+                                            <a class="user-pic">
+                                                <img src="" alt="">
+                                            </a>
+                                            <div class="reply-item">
+                                                <a href="javascript:void(0)" class="from-user">Grasd</a>
+                                                <!--回复的内容-->
+                                                <div class="reply-content">
+                                                    微信小程序入门与实战 常用组件API开发技巧项目实战
+                                                </div>
+                                                <div class="reply-footer clear">
+                                                    <a href="javascrip:;" class="reply-del">回复</a>
+                                                    <span class="timer">1分钟前</span>
+                                                </div>
+                                            </div>
+
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!--底部固定 收藏 点赞 分享-->
+                <div class="show-fixed-bottom">
+                    <div><i class="diyfont"></i></div>
+                    <div><i class="diyfont"></i></div>
+                    <div>
+                        <div class="show-like">
+                            <i class="diyfont"></i><span>123</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 瀑布流布局  -->
+            <div class="main_msg-box">
+                <div class="grid test1">
+                    <!--四大皆空-->
+                    <div class="grid-item" min-w="max" >
+
+
+                    </div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+
+                </div>
+            </div>
+            <!-- 加载条 -->
+            <div class="sw-loader">
+                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+                    <path opacity="0.2" fill="#000" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                    s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                    c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"/>
+                    <path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                    C22.32,8.481,24.301,9.057,26.013,10.047z">
+                        <animateTransform attributeType="xml"
+                                          attributeName="transform"
+                                          type="rotate"
+                                          from="0 20 20"
+                                          to="360 20 20"
+                                          dur="0.5s"
+                                          repeatCount="indefinite"/>
+                    </path>
+                </svg>
+                <span class="nodata">没有了,紧翻</span>
+            </div>
+
+        </div>
+        <div class="main_msg clear UserC">用户中心</div>
+        <div class="main_msg clear Fallow">关注</div>
+        <div class="main_msg clear Friend">好友</div>
+    </div>
+</div>
+
+
+
+
+<script>
+$(function () {
+    if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){
+        //移动端 加载对应的js
+        var head = document.getElementsByTagName('head')[0];
+        var script= document.createElement('script');
+        script.type= 'text/javascript';
+        script.src= 'Public/Js/Index_Main.js';
+        head.appendChild(script);
+
+    }else{
+        //PC端 加载对应的js
+        var head = document.getElementsByTagName('head')[0];
+        var script= document.createElement('script');
+        script.type= 'text/javascript';
+        script.src= 'Public/Js/AdaptF.js';
+        head.appendChild(script);
+    }
+
+
+})
+
+</script>
+</body>
+</html>

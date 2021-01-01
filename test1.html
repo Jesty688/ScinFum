@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="Public/Js/jquery-3.3.1.js"></script>
+    <title>Meng</title>
+    <style>
+        div{
+
+        }
+        button{
+            text-align: center;
+            background: #3D7EFE;
+            border:0;
+            outline: none;
+            padding:6px 8px;
+            color:white;
+            box-shadow: 5px 4px 10px 2px rgba(61,126,254,0.34);
+            border-radius: 18px;
+            margin-top: 10px;
+
+        }
+        button:hover{
+            background: white;
+            color:#3D7EFE;
+            cursor: pointer;
+            transition: all .5s;
+
+        }
+        .Fa{
+            transition: all .5s;
+            width: 50%;
+            /*border:1px solid red;*/
+        }
+        .add{
+            transition: all .5s;
+            margin:0 10px;
+            transition: .5s ease;
+            cursor: pointer;
+            color: #3D78EB;
+            border-radius: 12px;
+            user-select: none;
+            margin-left: 30px;
+            padding: 3px 12px;
+            font-size: 13px;
+            background-color: #F8FAFC;
+
+        }
+        .add:first-child{
+            margin-left: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="Fa"></div>
+    <button>Start</button>
+</body>
+<script>
+    $(function () {
+        $('button').click(function () {
+            $(this).css('display','none');
+
+            setInterval(function () {
+
+                $('.Fa ').append('<span class="add">你不乖</span>')
+                $('.add').fadeIn(600).fadeOut(800);
+            },200)
+        })
+
+        
+    })
+</script>
+
+</html>
