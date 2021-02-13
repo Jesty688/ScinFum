@@ -51,7 +51,7 @@ $(function () {
 
     }).blur(function () {
         /*正则判断是否是数字 或者 字母 下换线组成 不能全部是数字*/
-        if(!/^(?!\d+$)[0-9A-Za-z_]{6,8}$/g.test($(this).val().replace(/\s*/g,''))){
+        if(!/^[a-zA-Z](\w|\.){6,12}$/g.test($(this).val().replace(/\s*/g,''))){
             $(this).parent().siblings('span').css('display','block').text('用户名由数字字母下划线组成咩');
         }else{
             /*若正则没有问题则发送ajax请求 查询数据库中是否存在此用户名*/
